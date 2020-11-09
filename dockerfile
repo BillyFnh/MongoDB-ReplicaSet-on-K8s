@@ -3,7 +3,6 @@ WORKDIR /root
 ENV MONGODB_ID mongo-0
 
 RUN apt update
-RUN apt-get install net-tools
 
 COPY /startup-script-mongo /root
 
