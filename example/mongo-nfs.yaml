@@ -1,0 +1,222 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: mongodb-0-service
+  labels:
+    run: mongodb-0-service
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+    protocol: TCP
+  selector:
+    defacementComponent: mongodb-0
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: mongodb-0
+  labels:
+    env: test
+    defacementComponent: mongodb-0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      defacementComponent: mongodb-0
+  template:
+    metadata:
+      labels:
+        defacementComponent: mongodb-0
+    spec:
+      containers:
+        - image: mtlbillyfong/mongodb-replica-set:20200330-stable-1
+          name: mongodb-0
+          resources:
+            requests:
+              ephemeral-storage: "2Gi"
+              cpu: "1000m"
+              memory: "2Gi"
+            limits:
+              ephemeral-storage: "4Gi"
+              cpu: "2000m"
+              memory: "4Gi"
+          env:
+            - name: "MONGO_INITDB_ROOT_USERNAME"
+              value: "admin"
+            - name: "MONGO_INITDB_ROOT_PASSWORD"
+              value: "macroview"
+            - name: "MONGODB_ID"
+              value: "mongo-0"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: tz-hongkong
+              mountPath: /etc/localtime
+            - name: netappnfs-test-defacement-detection-mongodb-rs0-0
+              mountPath: "/data/db"
+      volumes:
+        - name: tz-hongkong
+          hostPath:
+            path: /etc/localtime
+        - name: netappnfs-test-defacement-detection-mongodb-rs0-0
+          nfs:
+            server: 172.31.52.20
+            path: "/mnt/NFS1/cluster5/defacement-detection-test-deployment/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: mongodb-1-service
+  labels:
+    run: mongodb-1-service
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    defacementComponent: mongodb-1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: mongodb-1
+  labels:
+    env: test
+    defacementComponent: mongodb-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      defacementComponent: mongodb-1
+  template:
+    metadata:
+      labels:
+        defacementComponent: mongodb-1
+    spec:
+      containers:
+        - image: mtlbillyfong/mongodb-replica-set:20200330-stable-1
+          name: mongodb-1
+          resources:
+            requests:
+              ephemeral-storage: "2Gi"
+              cpu: "1000m"
+              memory: "2Gi"
+            limits:
+              ephemeral-storage: "4Gi"
+              cpu: "2000m"
+              memory: "4Gi"
+          env:
+            - name: "MONGO_INITDB_ROOT_USERNAME"
+              value: "admin"
+            - name: "MONGO_INITDB_ROOT_PASSWORD"
+              value: "macroview"
+            - name: "MONGODB_ID"
+              value: "mongo-1"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: tz-hongkong
+              mountPath: /etc/localtime
+            - name: netappnfs-test-defacement-detection-mongodb-rs0-1
+              mountPath: "/data/db"
+      volumes:
+        - name: tz-hongkong
+          hostPath:
+            path: /etc/localtime
+        - name: netappnfs-test-defacement-detection-mongodb-rs0-1
+          nfs:
+            server: 172.31.52.20
+            path: "/mnt/NFS1/cluster5/defacement-detection-test-deployment/"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: default
+  name: mongodb-2-service
+  labels:
+    run: mongodb-2-service
+spec:
+  ports:
+    - port: 27017
+      targetPort: 27017
+      protocol: TCP
+  selector:
+    defacementComponent: mongodb-2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: mongodb-2
+  labels:
+    env: test
+    defacementComponent: mongodb-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      defacementComponent: mongodb-2
+  template:
+    metadata:
+      labels:
+        defacementComponent: mongodb-2
+    spec:
+      containers:
+        - image: mtlbillyfong/mongodb-replica-set:20200330-stable-1
+          name: mongodb-2
+          resources:
+            requests:
+              ephemeral-storage: "2Gi"
+              cpu: "1000m"
+              memory: "2Gi"
+            limits:
+              ephemeral-storage: "4Gi"
+              cpu: "2000m"
+              memory: "4Gi"
+          env:
+            - name: "MONGO_INITDB_ROOT_USERNAME"
+              value: "admin"
+            - name: "MONGO_INITDB_ROOT_PASSWORD"
+              value: "macroview"
+            - name: "MONGODB_ID"
+              value: "mongo-2"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: tz-hongkong
+              mountPath: /etc/localtime
+            - name: netappnfs-test-defacement-detection-mongodb-rs0-2
+              mountPath: "/data/db"
+      volumes:
+        - name: tz-hongkong
+          hostPath:
+            path: /etc/localtime
+        - name: netappnfs-test-defacement-detection-mongodb-rs0-2
+          nfs:
+            server: 172.31.52.20
+            path: "/mnt/NFS1/cluster5/defacement-detection-test-deployment/"
