@@ -2,9 +2,9 @@ quickSetting:
   namespace: default
   env: test
   image:
-    mongodb: mtlbillyfong/mongodb-replica-set:20200330-stable-1
+    mongodb: panos512/mongors:latest
   pvc:
-    storageClassName: default
+    storageClassName: geneva-cephfs-testing
     accessMode: ReadWriteOnce
     storageSize: 5Gi
     mongodbMountPath: "/mnt/NFS1/cluster5/defacement-detection-test-deployment-with-helm/"
@@ -27,17 +27,17 @@ db:
       periodSeconds: 5
       failureThreshold: 10
   instance0:
-    pvName: "azure-managed-disk-mongodb-rs0-0"
+    pvName: "provisioned-storage-mongodb-rs0-0"
     serviceName: mongodb-0-service
     podName: mongodb-0
     mongoId: "mongo-0"
   instance1:
-    pvName: "azure-managed-disk-mongodb-rs0-1"
+    pvName: "provisioned-storage-mongodb-rs0-1"
     serviceName: mongodb-1-service
     podName: mongodb-1
     mongoId: "mongo-1"
   instance2:
-    pvName: "azure-managed-disk-mongodb-rs0-2"
+    pvName: "provisioned-storage-mongodb-rs0-2"
     serviceName: mongodb-2-service
     podName: mongodb-2
     mongoId: "mongo-2"
