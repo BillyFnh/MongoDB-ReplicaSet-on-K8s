@@ -60,14 +60,9 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           volumeMounts:
-            - name: tz-hongkong
-              mountPath: /etc/localtime
             - name: netappnfs-test-defacement-detection-mongodb-rs0-0
               mountPath: "/data/db"
       volumes:
-        - name: tz-hongkong
-          hostPath:
-            path: /etc/localtime
         - name: netappnfs-test-defacement-detection-mongodb-rs0-0
           nfs:
             server: 172.31.52.20
@@ -134,14 +129,9 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           volumeMounts:
-            - name: tz-hongkong
-              mountPath: /etc/localtime
             - name: netappnfs-test-defacement-detection-mongodb-rs0-1
               mountPath: "/data/db"
       volumes:
-        - name: tz-hongkong
-          hostPath:
-            path: /etc/localtime
         - name: netappnfs-test-defacement-detection-mongodb-rs0-1
           nfs:
             server: 172.31.52.20
@@ -208,14 +198,9 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
           volumeMounts:
-            - name: tz-hongkong
-              mountPath: /etc/localtime
             - name: netappnfs-test-defacement-detection-mongodb-rs0-2
               mountPath: "/data/db"
       volumes:
-        - name: tz-hongkong
-          hostPath:
-            path: /etc/localtime
         - name: netappnfs-test-defacement-detection-mongodb-rs0-2
           nfs:
             server: 172.31.52.20

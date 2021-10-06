@@ -56,14 +56,9 @@ spec:
             initialDelaySeconds: {{ .Values.db.probes.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.db.probes.livenessProbe.periodSeconds }}
           volumeMounts:
-            - name: tz-hongkong
-              mountPath: /etc/localtime
             - name: {{ .Values.db.instance0.pvName }}
               mountPath: "/data/db"
       volumes:
-        - name: tz-hongkong
-          hostPath:
-            path: /etc/localtime
         - name: {{ .Values.db.instance0.pvName }}
           persistentVolumeClaim:
             claimName: {{ .Values.db.instance0.pvName }}
