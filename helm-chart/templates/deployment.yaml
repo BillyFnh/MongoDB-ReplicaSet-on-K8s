@@ -75,6 +75,7 @@ spec:
         - name: mongo-keyfile
           secret:
             secretName: mongodb-auth
+            defaultMode: 0400
             items:
               - key: keyfile
                 path: mongokeyfile
@@ -150,6 +151,7 @@ spec:
         - name: mongo-keyfile
           secret:
             secretName: mongodb-auth
+            defaultMode: 0400
             items:
               - key: keyfile
                 path: mongokeyfile
@@ -224,6 +226,7 @@ spec:
         - name: mongo-keyfile
           secret:
             secretName: mongodb-auth
+            defaultMode: 0400
             items:
               - key: keyfile
                 path: mongokeyfile
