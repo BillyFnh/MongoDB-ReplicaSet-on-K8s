@@ -11,6 +11,7 @@ quickSetting:
 db:
   auth:
     password: password
+    keyfile: keyfile
   service:
     port: 27017
   pod:
