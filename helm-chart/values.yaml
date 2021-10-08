@@ -31,16 +31,16 @@ db:
     serviceName: mongodb-0-service
     podName: mongodb-0
     mongoId: "mongo-0"
-    nodePort: 31253
+    nodePort: 32001
   instance1:
     pvName: "provisioned-storage-mongodb-rs0-1"
     serviceName: mongodb-1-service
     podName: mongodb-1
     mongoId: "mongo-1"
-    nodePort: 312534
+    nodePort: 32002
   instance2:
     pvName: "provisioned-storage-mongodb-rs0-2"
     serviceName: mongodb-2-service
     podName: mongodb-2
     mongoId: "mongo-2"
-    nodePort: 31255
+    nodePort: 32003
