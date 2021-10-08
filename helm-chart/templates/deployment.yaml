@@ -66,7 +66,8 @@ spec:
             - name: {{.Values.db.instance0.pvName}}
               mountPath: "/data/db"
             - name: mongo-keyfile
-              mountPath: "/etc/mongokeyfile"
+              mountPath: "/etc/secrets"
+
       volumes:
         - name: {{.Values.db.instance0.pvName}}
           persistentVolumeClaim:
@@ -76,6 +77,7 @@ spec:
             secretName: mongodb-auth
             items:
               - key: kefyile
+                path: mongokeyfile
 
 ---
 apiVersion: v1
@@ -140,7 +142,7 @@ spec:
             - name: {{.Values.db.instance1.pvName}}
               mountPath: "/data/db"
             - name: mongo-keyfile
-              mountPath: "/etc/mongokeyfile"
+              mountPath: "/etc/secrets"
       volumes:
         - name: {{.Values.db.instance1.pvName}}
           persistentVolumeClaim:
@@ -150,6 +152,7 @@ spec:
             secretName: mongodb-auth
             items:
               - key: kefyile
+                path: mongokeyfile
 ---
 apiVersion: v1
 kind: Service
@@ -213,7 +216,7 @@ spec:
             - name: {{.Values.db.instance2.pvName}}
               mountPath: "/data/db"
             - name: mongo-keyfile
-              mountPath: "/etc/mongokeyfile"
+              mountPath: "/etc/secrets"
       volumes:
         - name: {{.Values.db.instance2.pvName}}
           persistentVolumeClaim:
@@ -223,3 +226,4 @@ spec:
             secretName: mongodb-auth
             items:
               - key: kefyile
+                path: mongokeyfile
