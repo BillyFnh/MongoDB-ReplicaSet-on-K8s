@@ -76,7 +76,7 @@ spec:
           secret:
             secretName: mongodb-auth
             items:
-              - key: kefyile
+              - key: keyfile
                 path: mongokeyfile
 
 ---
@@ -151,7 +151,7 @@ spec:
           secret:
             secretName: mongodb-auth
             items:
-              - key: kefyile
+              - key: keyfile
                 path: mongokeyfile
 ---
 apiVersion: v1
@@ -225,5 +225,5 @@ spec:
           secret:
             secretName: mongodb-auth
             items:
-              - key: kefyile
+              - key: keyfile
                 path: mongokeyfile
