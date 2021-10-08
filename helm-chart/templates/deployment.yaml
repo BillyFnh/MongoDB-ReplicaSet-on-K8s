@@ -49,6 +49,11 @@ spec:
           env:
           - name: "MONGODB_ID"
             value: {{ .Values.db.instance0.mongoId | quote }}
+          - name: "MONGODB_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key:  password
+                  name: mongodb-auth
           livenessProbe:
             exec:
               command:
