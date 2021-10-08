@@ -2,203 +2,202 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance0.serviceName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance0.serviceName}}
   labels:
-    run: {{ .Values.db.instance0.serviceName }}
+    run: {{.Values.db.instance0.serviceName}}
 spec:
   type: NodePort
   ports:
-  - port: {{ .Values.db.service.port }}
-    targetPort: {{ .Values.db.service.port }}
-    nodePort: {{ .Values.db.instance0.nodePort }}
-    protocol: TCP
+    - port: {{.Values.db.service.port}}
+      targetPort: {{.Values.db.service.port}}
+      nodePort: {{.Values.db.instance0.nodePort}}
+      protocol: TCP
   selector:
-    defacementComponent: {{ .Values.db.instance0.podName }}
+    defacementComponent: {{.Values.db.instance0.podName}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance0.podName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance0.podName}}
   labels:
-    env: {{ .Values.quickSetting.env }}
-    defacementComponent: {{ .Values.db.instance0.podName }}
+    env: {{.Values.quickSetting.env}}
+    defacementComponent: {{.Values.db.instance0.podName}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      defacementComponent: {{ .Values.db.instance0.podName }}
+      defacementComponent: {{.Values.db.instance0.podName}}
   template:
     metadata:
       labels:
-        defacementComponent: {{ .Values.db.instance0.podName }}
+        defacementComponent: {{.Values.db.instance0.podName}}
     spec:
       containers:
-        - image: {{ .Values.quickSetting.image.mongodb }}
-          name: {{ .Values.db.instance0.podName }}
+        - image: {{.Values.quickSetting.image.mongodb}}
+          name: {{.Values.db.instance0.podName}}
           resources:
             requests:
-              ephemeral-storage: {{ .Values.db.pod.resources.requests.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.requests.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
             limits:
-              ephemeral-storage: {{ .Values.db.pod.resources.limits.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.limits.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
           env:
-          - name: "MONGODB_ID"
-            value: {{ .Values.db.instance0.mongoId | quote }}
-          - name: "MONGODB_ADMIN_PASSWORD"
-            valueFrom:
-              secretKeyRef:
-                key:  password
-                name: mongodb-auth
+            - name: "MONGODB_ID"
+              value: {{.Values.db.instance0.mongoId | quote}}
+            - name: "MONGODB_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: mongodb-auth
           livenessProbe:
             exec:
               command:
-              - /bin/bash
-              - -c
-              - mongo --quiet --eval "db.getMongo()"
-            initialDelaySeconds: {{ .Values.db.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.db.probes.livenessProbe.periodSeconds }}
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
-            - name: {{ .Values.db.instance0.pvName }}
+            - name: {{.Values.db.instance0.pvName}}
               mountPath: "/data/db"
       volumes:
-        - name: {{ .Values.db.instance0.pvName }}
+        - name: {{.Values.db.instance0.pvName}}
           persistentVolumeClaim:
-            claimName: {{ .Values.db.instance0.pvName }}
+            claimName: {{.Values.db.instance0.pvName}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance1.serviceName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance1.serviceName}}
   labels:
-    run: {{ .Values.db.instance1.serviceName }}
+    run: {{.Values.db.instance1.serviceName}}
 spec:
   type: NodePort
   ports:
-  - port: {{ .Values.db.service.port }}
-    targetPort: {{ .Values.db.service.port }}
-    nodePort: {{ .Values.db.instance1.nodePort }}
-    protocol: TCP
+    - port: {{.Values.db.service.port}}
+      targetPort: {{.Values.db.service.port}}
+      nodePort: {{.Values.db.instance1.nodePort}}
+      protocol: TCP
   selector:
-    defacementComponent: {{ .Values.db.instance1.podName }}
+    defacementComponent: {{.Values.db.instance1.podName}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance1.podName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance1.podName}}
   labels:
-    env: {{ .Values.quickSetting.env }}
-    defacementComponent: {{ .Values.db.instance1.podName }}
+    env: {{.Values.quickSetting.env}}
+    defacementComponent: {{.Values.db.instance1.podName}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      defacementComponent: {{ .Values.db.instance1.podName }}
+      defacementComponent: {{.Values.db.instance1.podName}}
   template:
     metadata:
       labels:
-        defacementComponent: {{ .Values.db.instance1.podName }}
+        defacementComponent: {{.Values.db.instance1.podName}}
     spec:
       containers:
-        - image: {{ .Values.quickSetting.image.mongodb }}
-          name: {{ .Values.db.instance1.podName }}
+        - image: {{.Values.quickSetting.image.mongodb}}
+          name: {{.Values.db.instance1.podName}}
           resources:
             requests:
-              ephemeral-storage: {{ .Values.db.pod.resources.requests.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.requests.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
             limits:
-              ephemeral-storage: {{ .Values.db.pod.resources.limits.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.limits.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
           env:
-          - name: "MONGODB_ID"
-            value: {{ .Values.db.instance1.mongoId | quote }}
+            - name: "MONGODB_ID"
+              value: {{.Values.db.instance1.mongoId | quote}}
           livenessProbe:
             exec:
               command:
-              - /bin/bash
-              - -c
-              - mongo --quiet --eval "db.getMongo()"
-            initialDelaySeconds: {{ .Values.db.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.db.probes.livenessProbe.periodSeconds }}
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
-            - name: {{ .Values.db.instance1.pvName }}
+            - name: {{.Values.db.instance1.pvName}}
               mountPath: "/data/db"
       volumes:
-        - name: {{ .Values.db.instance1.pvName }}
+        - name: {{.Values.db.instance1.pvName}}
           persistentVolumeClaim:
-            claimName: {{ .Values.db.instance1.pvName }}
+            claimName: {{.Values.db.instance1.pvName}}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance2.serviceName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance2.serviceName}}
   labels:
-    run: {{ .Values.db.instance2.serviceName }}
+    run: {{.Values.db.instance2.serviceName}}
 spec:
   type: NodePort
   ports:
-  - port: {{ .Values.db.service.port }}
-    targetPort: {{ .Values.db.service.port }}
-    nodePort: {{ .Values.db.instance2.nodePort }}
-    protocol: TCP
+    - port: {{.Values.db.service.port}}
+      targetPort: {{.Values.db.service.port}}
+      nodePort: {{.Values.db.instance2.nodePort}}
+      protocol: TCP
   selector:
-    defacementComponent: {{ .Values.db.instance2.podName }}
+    defacementComponent: {{.Values.db.instance2.podName}}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.quickSetting.namespace }}
-  name: {{ .Values.db.instance2.podName }}
+  namespace: {{.Values.quickSetting.namespace}}
+  name: {{.Values.db.instance2.podName}}
   labels:
-    env: {{ .Values.quickSetting.env }}
-    defacementComponent: {{ .Values.db.instance2.podName }}
+    env: {{.Values.quickSetting.env}}
+    defacementComponent: {{.Values.db.instance2.podName}}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      defacementComponent: {{ .Values.db.instance2.podName }}
+      defacementComponent: {{.Values.db.instance2.podName}}
   template:
     metadata:
       labels:
-        defacementComponent: {{ .Values.db.instance2.podName }}
+        defacementComponent: {{.Values.db.instance2.podName}}
     spec:
       containers:
-        - image: {{ .Values.quickSetting.image.mongodb }}
-          name: {{ .Values.db.instance2.podName }}
+        - image: {{.Values.quickSetting.image.mongodb}}
+          name: {{.Values.db.instance2.podName}}
           resources:
             requests:
-              ephemeral-storage: {{ .Values.db.pod.resources.requests.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.requests.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
             limits:
-              ephemeral-storage: {{ .Values.db.pod.resources.limits.ephemeralStorage }}
-              cpu: {{ .Values.db.pod.resources.requests.cpu }}
-              memory: {{ .Values.db.pod.resources.requests.memory }}
+              ephemeral-storage: {{.Values.db.pod.resources.limits.ephemeralStorage}}
+              cpu: {{.Values.db.pod.resources.requests.cpu}}
+              memory: {{.Values.db.pod.resources.requests.memory}}
           env:
-          - name: "MONGODB_ID"
-            value: {{ .Values.db.instance2.mongoId | quote }}
+            - name: "MONGODB_ID"
+              value: {{.Values.db.instance2.mongoId | quote}}
           livenessProbe:
             exec:
               command:
-              - /bin/bash
-              - -c
-              - mongo --quiet --eval "db.getMongo()"
-            initialDelaySeconds: {{ .Values.db.probes.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.db.probes.livenessProbe.periodSeconds }}
+                - /bin/bash
+                - -c
+                - mongo --quiet --eval "db.getMongo()"
+            initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
+            periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
-            - name: {{ .Values.db.instance2.pvName }}
+            - name: {{.Values.db.instance2.pvName}}
               mountPath: "/data/db"
       volumes:
-        - name: {{ .Values.db.instance2.pvName }}
+        - name: {{.Values.db.instance2.pvName}}
           persistentVolumeClaim:
-            claimName: {{ .Values.db.instance2.pvName }}
----
+            claimName: {{.Values.db.instance2.pvName}}
