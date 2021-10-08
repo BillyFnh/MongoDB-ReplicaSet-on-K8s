@@ -65,12 +65,12 @@ spec:
           volumeMounts:
             - name: {{.Values.db.instance0.pvName}}
               mountPath: "/data/db"
+            - name: mongo-keyfile
+              mountPath: "/etc/mongokeyfile"
       volumes:
         - name: {{.Values.db.instance0.pvName}}
           persistentVolumeClaim:
             claimName: {{.Values.db.instance0.pvName}}
-        - name: mongo-keyfile
-          mountPath: "/etc/mongokeyfile"
         - name: mongo-keyfile
           secret:
             secretName: mongodb-auth
