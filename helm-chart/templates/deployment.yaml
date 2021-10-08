@@ -7,9 +7,11 @@ metadata:
   labels:
     run: {{ .Values.db.instance0.serviceName }}
 spec:
+  type: NodePort
   ports:
   - port: {{ .Values.db.service.port }}
     targetPort: {{ .Values.db.service.port }}
+    nodePort: {{ .Values.db.instance0.nodePort }}
     protocol: TCP
   selector:
     defacementComponent: {{ .Values.db.instance0.podName }}
@@ -71,9 +73,11 @@ metadata:
   labels:
     run: {{ .Values.db.instance1.serviceName }}
 spec:
+  type: NodePort
   ports:
   - port: {{ .Values.db.service.port }}
     targetPort: {{ .Values.db.service.port }}
+    nodePort: {{ .Values.db.instance1.nodePort }}
     protocol: TCP
   selector:
     defacementComponent: {{ .Values.db.instance1.podName }}
@@ -135,9 +139,11 @@ metadata:
   labels:
     run: {{ .Values.db.instance2.serviceName }}
 spec:
+  type: NodePort
   ports:
   - port: {{ .Values.db.service.port }}
     targetPort: {{ .Values.db.service.port }}
+    nodePort: {{ .Values.db.instance2.nodePort }}
     protocol: TCP
   selector:
     defacementComponent: {{ .Values.db.instance2.podName }}
