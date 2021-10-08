@@ -70,10 +70,11 @@ spec:
           persistentVolumeClaim:
             claimName: {{.Values.db.instance0.pvName}}
         - name: mongo-keyfile
-          secretName: mongodb-auth
-          items:
-            - key: kefyile
-              path: /etc/mongokeyfile
+          secret:
+            secretName: mongodb-auth
+            items:
+              - key: kefyile
+                path: /etc/mongokeyfile
 
 ---
 apiVersion: v1
@@ -142,10 +143,11 @@ spec:
           persistentVolumeClaim:
             claimName: {{.Values.db.instance1.pvName}}
         - name: mongo-keyfile
-          secretName: mongodb-auth
-          items:
-            - key: kefyile
-              path: /etc/mongokeyfile
+          secret:
+            secretName: mongodb-auth
+            items:
+              - key: kefyile
+                path: /etc/mongokeyfile
 ---
 apiVersion: v1
 kind: Service
@@ -213,7 +215,8 @@ spec:
           persistentVolumeClaim:
             claimName: {{.Values.db.instance2.pvName}}
         - name: mongo-keyfile
-          secretName: mongodb-auth
-          items:
-            - key: kefyile
-              path: /etc/mongokeyfile
+          secret:
+            secretName: mongodb-auth
+            items:
+              - key: kefyile
+                path: /etc/mongokeyfile
