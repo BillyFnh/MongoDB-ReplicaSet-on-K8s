@@ -32,6 +32,7 @@ spec:
   template:
     metadata:
       labels:
+        env: {{.Values.quickSetting.env}}
         defacementComponent: {{.Values.db.instance0.podName}}
     spec:
       containers:
@@ -114,6 +115,7 @@ spec:
   template:
     metadata:
       labels:
+        env: {{.Values.quickSetting.env}}
         defacementComponent: {{.Values.db.instance1.podName}}
     spec:
       containers:
@@ -189,6 +191,7 @@ spec:
   template:
     metadata:
       labels:
+        env: {{.Values.quickSetting.env}}
         defacementComponent: {{.Values.db.instance2.podName}}
     spec:
       containers:
