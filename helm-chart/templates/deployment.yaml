@@ -114,6 +114,7 @@ spec:
   template:
     metadata:
       labels:
+        env: {{.Values.quickSetting.env}}
         defacementComponent: {{.Values.db.instance1.podName}}
     spec:
       containers:

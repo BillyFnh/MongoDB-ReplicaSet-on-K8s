@@ -1,6 +1,6 @@
 quickSetting:
   namespace: default
-  env: test
+  env: test-rs
   image:
     mongodb: panos512/mongors:latest
   pvc:
