@@ -50,6 +50,8 @@ spec:
           env:
             - name: "RS_NAME"
               value: {{.Values.db.rsname}}
+            - name: "NODE_HOSTNAME"
+              value: {{.Values.db.nodeHostname}}
             - name: "MONGODB_ID"
               value: {{.Values.db.instance0.mongoId | quote}}
             - name: "MONGODB_ADMIN_PASSWORD"

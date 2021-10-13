@@ -10,6 +10,7 @@ quickSetting:
     mongodbMountPath: "/mnt/NFS1/cluster5/defacement-detection-test-deployment-with-helm/"
 db:
   rsname: "cms-rs"
+  nodeHostname: nodeHostname
   auth:
     password: password
     keyfile: keyfile
