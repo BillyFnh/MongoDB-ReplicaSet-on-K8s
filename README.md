@@ -15,9 +15,9 @@ For more information on how this replicaset is formed, please refer to this [art
 
 ## Configuring Persistent Volume
 
-This Helm Chart is developed on Azure AKS, and uses Azure Managed Disk as Persistent Volume.
+This Helm Chart is developed on the CERN cloud. It uses by default the `geneva-cephfs-testing` storage class. 
 
-If you want to deploy on another cloud provider, you will need to change the storageClass updating `values.yaml` (`./helm-chart/values.yaml`).
+If you want to deploy on another cloud provider, or use another StorageClass, you will need to change the storageClass updating `values.yaml` (`./helm-chart/values.yaml`).
 
 ****
 
@@ -26,14 +26,16 @@ If you want to deploy on another cloud provider, you will need to change the sto
 Using Helm, you can launch the application with the this command:
 
 ```bash
-helm install mongodb ./mongo-replicaset
+helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" . 
 ```
+The db.auth.password argument is the password for both the `usersAdmin` and `clusterAdmin` users.
+The db.auth.keyfile is the keyfile that mongo needs to enable authentication. The `openssl rand -base64 756` command generates a random file.
 
 You should see the deploy confirmation message similar to below:
 
 ```plain
 NAME: mongo
-LAST DEPLOYED: Tue Nov 24 17:12:04 **2020**
+LAST DEPLOYED: Wed Oct 13 09:21:42 2021
 NAMESPACE: default
 STATUS: deployed
 REVISION: 1
@@ -47,6 +49,7 @@ Give this deployment aronud 2-3 minutes to initiate, it will do the following:
 - Pull image from DockerHub
 - Start Containers
 - Start `Mongod` and initiate `ReplicaSet`
+- Create `usersAdmin` and `clusterAdmin` users
 
 ****
 
@@ -68,10 +71,9 @@ pod/mongodb-2-6cbb444455-jj6w9   0/1     ContainerCreating   0          1s
 
 NAME                        TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)     AGE
 service/kubernetes          ClusterIP   10.0.0.1       <none>        443/TCP     30m
-service/mongodb-0-service   ClusterIP   10.0.16.71     <none>        27017/TCP   1s
-service/mongodb-1-service   ClusterIP   10.0.77.174    <none>        27017/TCP   1s
-service/mongodb-2-service   ClusterIP   10.0.172.241   <none>        27017/TCP   1s
-
+service/mongodb-0-service   NodePort    10.254.108.76    <none>        27017:32001/TCP   1s
+service/mongodb-1-service   NodePort    10.254.186.152   <none>        27017:32002/TCP   1s
+service/mongodb-2-service   NodePort    10.254.140.157   <none>        27017:32003/TCP   1s
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/mongodb-0   0/1     1            0           1s
 deployment.apps/mongodb-1   0/1     1            0           1s
@@ -93,10 +95,9 @@ pod/mongodb-2-6cbb444455-jj6w9   1/1     Running             1          20s
 
 NAME                        TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)     AGE
 service/kubernetes          ClusterIP   10.0.0.1       <none>        443/TCP     30m
-service/mongodb-0-service   ClusterIP   10.0.16.71     <none>        27017/TCP   20s
-service/mongodb-1-service   ClusterIP   10.0.77.174    <none>        27017/TCP   20s
-service/mongodb-2-service   ClusterIP   10.0.172.241   <none>        27017/TCP   20s
-
+service/mongodb-0-service   NodePort    10.254.108.76    <none>        27017:32001/TCP   20s
+service/mongodb-1-service   NodePort    10.254.186.152   <none>        27017:32002/TCP   20s
+service/mongodb-2-service   NodePort    10.254.140.157   <none>        27017:32003/TCP   20s
 NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/mongodb-0   1/1     1            1           20s
 deployment.apps/mongodb-1   1/1     1            1           20s
@@ -111,7 +112,7 @@ replicaset.apps/mongodb-2-6cbb444455   1         1         1       20s
 You can check the MongoDB ReplicaSet status by via Mongo Shell:
 
 ```bash
-kubectl exec -it -n default <pod-name> mongo
+kubectl exec -it -n default <pod-name> mongo -u clusterAdmin -p password
 # <pod-name> is the name of pod, for example it could be pod/mongodb-0-7d44df6f6-h49jx
 ```
 
@@ -135,30 +136,7 @@ rs0:PRIMARY> rs.config()
 
 Now that you've started MongoDB, you may connect your clients to it with Mongo Connect String URI.
 
-If you start another application on the same K8s cluster, you should be able to use DNS name as the URI:
-
+The installation is using NodePort services on the ports 32001, 32002 and 32003:
 ```bash
-mongodb://mongodb-0-service:27017,mongodb-1-service:27017,mongodb-2-service:27017
+ mongo mongodb://mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32001,mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32002,mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32003/admin?replicaSet=rs0 -u clusterAdmin
 ```
-
-<!-- ## Getting Started (the slower way)
-
-Before you can launch a MongoDB ReplicaSet, first you need to obtain the Docker images.
-
-### Pull Docker Image From DockerHub
-
-```bash
-docker pull billyfong2007/mongodb-replica-set:latest
-```
-
-### Building Docker Image From Source
-
-Go to the root directory of this project, and:
-
-```bash
-docker build -t username/mongodb-replica-set .
-```
-
-## Launching MongoDB Replica Set
-
-Once you have the required image, -->
