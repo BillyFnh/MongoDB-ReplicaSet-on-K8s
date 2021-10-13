@@ -9,6 +9,7 @@ quickSetting:
     storageSize: 5Gi
     mongodbMountPath: "/mnt/NFS1/cluster5/defacement-detection-test-deployment-with-helm/"
 db:
+  rsname: "cms-rs"
   auth:
     password: password
     keyfile: keyfile
@@ -30,19 +31,19 @@ db:
       periodSeconds: 6
       failureThreshold: 10
   instance0:
-    pvName: "provisioned-storage-mongodb-rs0-0"
+    pvName: "provisioned-storage-mongodb-0"
     serviceName: mongodb-0-service
     podName: mongodb-0
     mongoId: "mongo-0"
     nodePort: 32001
   instance1:
-    pvName: "provisioned-storage-mongodb-rs0-1"
+    pvName: "provisioned-storage-mongodb-1"
     serviceName: mongodb-1-service
     podName: mongodb-1
     mongoId: "mongo-1"
     nodePort: 32002
   instance2:
-    pvName: "provisioned-storage-mongodb-rs0-2"
+    pvName: "provisioned-storage-mongodb-2"
     serviceName: mongodb-2-service
     podName: mongodb-2
     mongoId: "mongo-2"

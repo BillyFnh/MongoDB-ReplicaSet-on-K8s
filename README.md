@@ -26,10 +26,11 @@ If you want to deploy on another cloud provider, or use another StorageClass, yo
 Using Helm, you can launch the application with the this command:
 
 ```bash
-helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" . 
+helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" --set db.rsname='rsName'. 
 ```
 The db.auth.password argument is the password for both the `usersAdmin` and `clusterAdmin` users.
 The db.auth.keyfile is the keyfile that mongo needs to enable authentication. The `openssl rand -base64 756` command generates a random file.
+The db.rsname is the name of the replica set. This is an optional argument, by default the name of the replicaset is `cms-rs`.
 
 You should see the deploy confirmation message similar to below:
 
@@ -119,7 +120,7 @@ kubectl exec -it -n default <pod-name> mongo -u clusterAdmin -p password
 Once you get into Mongo Shell, you will see the following:
 
 ```plain
-rs0:PRIMARY>
+rsName:PRIMARY>
 ```
 
 Congratulations! You have just formed your own MongoDB ReplicaSet, any data written onto the Primary instance will now be replicated onto secondary instances. If the primary instance were to stop, one of the secondary instances will take over the primary instance's role.
@@ -127,7 +128,7 @@ Congratulations! You have just formed your own MongoDB ReplicaSet, any data writ
 You can view the replica configuration in the Mongo Shell by:
 
 ```bash
-rs0:PRIMARY> rs.config()
+rsName:PRIMARY> rs.config()
 ```
 
 ****

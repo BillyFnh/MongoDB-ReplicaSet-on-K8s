@@ -28,7 +28,7 @@ EOL
 
 sleep 5
 
-if [[ $(mongo --quiet --eval "db.isMaster().setName") != rs0 ]]
+if [[ $(mongo --quiet --eval "db.isMaster().setName") != $RS_NAME ]]
 then
     echo "Replica Set reconfiguratoin failed..."
     echo "Reinitializing Replica Set..."
