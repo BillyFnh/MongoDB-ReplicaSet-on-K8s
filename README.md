@@ -26,11 +26,12 @@ If you want to deploy on another cloud provider, or use another StorageClass, yo
 Using Helm, you can launch the application with the this command:
 
 ```bash
-helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" --set db.rsname='rsName'. 
+helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" --set db.rsname='rsName' --set db.nodeHostname='something-node-0.cern.ch' . 
 ```
 The db.auth.password argument is the password for both the `usersAdmin` and `clusterAdmin` users.
 The db.auth.keyfile is the keyfile that mongo needs to enable authentication. The `openssl rand -base64 756` command generates a random file.
 The db.rsname is the name of the replica set. This is an optional argument, by default the name of the replicaset is `cms-rs`.
+The db.nodeHostname is the hostname of a k8s node. This is used to configure the replicaset using the node hostname and the ports 32001, 32002 and 32003.
 
 You should see the deploy confirmation message similar to below:
 
