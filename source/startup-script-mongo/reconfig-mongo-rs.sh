@@ -4,7 +4,7 @@ retryCount=0
 
 echo "Checking MongoDB status:"
 
-while [[ "$(mongo --quiet --eval "rs.status().ok")" != "0" ]]
+while [[ "$(mongosh --quiet --eval "rs.status().ok")" != "0" ]]
 do
     if [ $retryCount -gt 30 ]
     then
@@ -18,7 +18,7 @@ done
 
 echo "Sending in Replica Set configuration..."
 
-mongo --eval "mongodb = ['$MONGODB_0_SERVICE_SERVICE_HOST:$MONGODB_0_SERVICE_SERVICE_PORT', '$MONGODB_1_SERVICE_SERVICE_HOST:$MONGODB_1_SERVICE_SERVICE_PORT', '$MONGODB_2_SERVICE_SERVICE_HOST:$MONGODB_2_SERVICE_SERVICE_PORT']" -u clusterAdmin -p $MONGODB_ADMIN_PASSWORD --shell << EOL
+mongosh --eval "mongodb = ['$MONGODB_0_SERVICE_SERVICE_HOST:$MONGODB_0_SERVICE_SERVICE_PORT', '$MONGODB_1_SERVICE_SERVICE_HOST:$MONGODB_1_SERVICE_SERVICE_PORT', '$MONGODB_2_SERVICE_SERVICE_HOST:$MONGODB_2_SERVICE_SERVICE_PORT']" -u clusterAdmin -p $MONGODB_ADMIN_PASSWORD --shell << EOL
 cfg = rs.conf()
 cfg.members[0].host = mongodb[0]
 cfg.members[1].host = mongodb[1]
@@ -28,7 +28,7 @@ EOL
 
 sleep 5
 
-if [[ $(mongo --quiet --eval "db.isMaster().setName") != $RS_NAME ]]
+if [[ $(mongosh --quiet --eval "db.isMaster().setName") != $RS_NAME ]]
 then
     echo "Replica Set reconfiguratoin failed..."
     echo "Reinitializing Replica Set..."
