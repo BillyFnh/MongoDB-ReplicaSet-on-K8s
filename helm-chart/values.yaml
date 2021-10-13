@@ -27,7 +27,7 @@ db:
         memory: "2Gi"
   probes:
     livenessProbe:
-      initialDelaySeconds: 30
+      initialDelaySeconds: 90
       periodSeconds: 12
       failureThreshold: 10
   instance0:
