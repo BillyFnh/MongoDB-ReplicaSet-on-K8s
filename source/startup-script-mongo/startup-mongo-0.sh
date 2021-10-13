@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p /data/db/-0
+mkdir -p /data/db/rs-0
 export POD_IP_ADDRESS=$(hostname -i)
 
 /root/reconfig-mongo-rs.sh &
