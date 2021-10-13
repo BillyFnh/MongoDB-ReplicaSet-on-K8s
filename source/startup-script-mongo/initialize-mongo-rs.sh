@@ -2,7 +2,7 @@
 
 echo "Executing initialize-mongo-rs.sh"
 
-mongo --eval "mongodb = ['$MONGODB_0_SERVICE_SERVICE_HOST:$MONGODB_0_SERVICE_SERVICE_PORT', '$MONGODB_1_SERVICE_SERVICE_HOST:$MONGODB_1_SERVICE_SERVICE_PORT', '$MONGODB_2_SERVICE_SERVICE_HOST:$MONGODB_2_SERVICE_SERVICE_PORT']"  --eval "adminpass = '$MONGODB_ADMIN_PASSWORD'"  --shell << EOL
+mongo --eval "mongodb = ['$MONGODB_0_SERVICE_SERVICE_HOST:$MONGODB_0_SERVICE_SERVICE_PORT', '$MONGODB_1_SERVICE_SERVICE_HOST:$MONGODB_1_SERVICE_SERVICE_PORT', '$MONGODB_2_SERVICE_SERVICE_HOST:$MONGODB_2_SERVICE_SERVICE_PORT']" --shell << EOL
 cfg = {
         _id: "rs0",
         members:
@@ -13,13 +13,6 @@ cfg = {
             ]
         }
 rs.initiate(cfg)
-use admin
-db.createUser(
-  {
-    user: "admin",
-    pwd: adminpass,
-    roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
-  }
-)
 EOL
-export MONGODB_ADMIN_PASSWORD=''
+
+/root/initialize-users.sh &

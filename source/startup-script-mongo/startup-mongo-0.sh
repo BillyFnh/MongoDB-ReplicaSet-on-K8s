@@ -5,10 +5,4 @@ export POD_IP_ADDRESS=$(hostname -i)
 
 /root/reconfig-mongo-rs.sh &
 
-mongod --replSet rs0 --port 27017 --bind_ip localhost,$POD_IP_ADDRESS --dbpath /data/db/rs0-0 --oplogSize 128 --keyFile /etc/secrets/mongokeyfile --auth
-
-echo "POD_IP_ADDRESS: $POD_IP_ADDRESS:$MONGODB_0_SERVICE_SERVICE_PORT"
-echo "MONGODB_0_SERVICE_SERVICE_HOST: $MONGODB_0_SERVICE_SERVICE_HOST:$MONGODB_0_SERVICE_SERVICE_PORT"
-echo "MONGODB_1_SERVICE_SERVICE_HOST: $MONGODB_1_SERVICE_SERVICE_HOST:$MONGODB_1_SERVICE_SERVICE_PORT"
-echo "MONGODB_2_SERVICE_SERVICE_HOST: $MONGODB_2_SERVICE_SERVICE_HOST:$MONGODB_2_SERVICE_SERVICE_PORT"
-
+mongod --replSet rs0 --port 27017 --bind_ip localhost,$POD_IP_ADDRESS --dbpath /data/db/rs0-0 --oplogSize 128 --keyFile /etc/secrets/mongokeyfile
