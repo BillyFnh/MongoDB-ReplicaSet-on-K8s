@@ -26,8 +26,8 @@ db:
         memory: "2Gi"
   probes:
     livenessProbe:
-      initialDelaySeconds: 5
-      periodSeconds: 5
+      initialDelaySeconds: 10
+      periodSeconds: 6
       failureThreshold: 10
   instance0:
     pvName: "provisioned-storage-mongodb-rs0-0"
