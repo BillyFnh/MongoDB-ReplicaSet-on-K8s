@@ -62,7 +62,7 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+                - mongo --quiet --eval "db.adminCommand('ping')"
             initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
@@ -142,7 +142,7 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+                - mongo --quiet --eval "db.adminCommand('ping')"
             initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
@@ -220,7 +220,7 @@ spec:
               command:
                 - /bin/bash
                 - -c
-                - mongosh --quiet --eval "db.adminCommand('ping')"
+                - mongo --quiet --eval "db.adminCommand('ping')"
             initialDelaySeconds: {{.Values.db.probes.livenessProbe.initialDelaySeconds}}
             periodSeconds: {{.Values.db.probes.livenessProbe.periodSeconds}}
           volumeMounts:
