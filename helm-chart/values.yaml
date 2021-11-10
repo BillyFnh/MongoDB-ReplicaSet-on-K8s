@@ -6,7 +6,7 @@ quickSetting:
   pvc:
     storageClassName: io3
     accessMode: ReadWriteOnce
-    storageSize: 5Gi
+    storageSize: 1Ti
     mongodbMountPath: "/mnt/NFS1/cluster5/defacement-detection-test-deployment-with-helm/"
 db:
   rsname: "cms-rs"
@@ -19,13 +19,13 @@ db:
   pod:
     resources:
       requests:
-        ephemeralStorage: "1Gi"
+        ephemeralStorage: "800Gi"
         cpu: "100m"
-        memory: "1Gi"
+        memory: "800Gi"
       limits:
-        ephemeralStorage: "2Gi"
+        ephemeralStorage: "1Ti"
         cpu: "200m"
-        memory: "2Gi"
+        memory: "1Ti"
   probes:
     livenessProbe:
       initialDelaySeconds: 90

@@ -4,18 +4,17 @@ metadata:
   name: io3
 provisioner: kubernetes.io/cinder
 parameters:
-  type: {{.Values.quickSetting.pvc.storageClassName}}
+  type: io3
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   namespace: {{.Values.quickSetting.namespace}}
   name: {{.Values.db.instance0.pvName}}
-  annotations:
-    volume.beta.kubernetes.io/storage-class: io3
 spec:
   accessModes:
     - {{.Values.quickSetting.pvc.accessMode}}
+  storageClassName: {{.Values.quickSetting.pvc.storageClassName}}
   resources:
     requests:
       storage: {{.Values.quickSetting.pvc.storageSize}}
@@ -25,11 +24,10 @@ kind: PersistentVolumeClaim
 metadata:
   namespace: {{.Values.quickSetting.namespace}}
   name: {{.Values.db.instance1.pvName}}
-  annotations:
-    volume.beta.kubernetes.io/storage-class: io3
 spec:
   accessModes:
     - {{.Values.quickSetting.pvc.accessMode}}
+  storageClassName: {{.Values.quickSetting.pvc.storageClassName}}
   resources:
     requests:
       storage: {{.Values.quickSetting.pvc.storageSize}}
@@ -39,11 +37,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{.Values.db.instance2.pvName}}
   namespace: {{.Values.quickSetting.namespace}}
-  annotations:
-    volume.beta.kubernetes.io/storage-class: io3
 spec:
   accessModes:
     - {{.Values.quickSetting.pvc.accessMode}}
+  storageClassName: {{.Values.quickSetting.pvc.storageClassName}}
   resources:
     requests:
       storage: {{.Values.quickSetting.pvc.storageSize}}
