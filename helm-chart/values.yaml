@@ -4,7 +4,7 @@ quickSetting:
   image:
     mongodb: registry.cern.ch/cmsweb/cmsmongo
   pvc:
-    storageClassName: geneva-cephfs-testing
+    storageClassName: io3
     accessMode: ReadWriteOnce
     storageSize: 5Gi
     mongodbMountPath: "/mnt/NFS1/cluster5/defacement-detection-test-deployment-with-helm/"
