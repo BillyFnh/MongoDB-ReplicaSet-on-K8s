@@ -21,11 +21,11 @@ db:
       requests:
         ephemeralStorage: "800Gi"
         cpu: "100m"
-        memory: "800Gi"
+        memory: "16Gi"
       limits:
         ephemeralStorage: "1Ti"
         cpu: "200m"
-        memory: "1Ti"
+        memory: "16Gi"
   probes:
     livenessProbe:
       initialDelaySeconds: 90
