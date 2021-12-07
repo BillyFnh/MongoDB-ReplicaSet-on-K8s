@@ -11,6 +11,8 @@ quickSetting:
 db:
   rsname: "cms-rs"
   nodeHostname: nodeHostname
+  clusterName: mongodb
+  env: k8s-mongo
   auth:
     password: password
     keyfile: keyfile
