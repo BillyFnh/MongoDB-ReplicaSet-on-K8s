@@ -306,7 +306,7 @@ spec:
       - name: tmp
         emptyDir: {}
 ---
-apiVersion: apiregistration.k8s.io/v1beta1
+apiVersion: apiregistration.k8s.io/v1
 kind: APIService
 metadata:
   labels:
@@ -413,74 +413,32 @@ subjects:
 - kind: ServiceAccount
   name: default
   namespace: monitoring
-# logstash deployment
+# MongoDB exporter deployment
 ---
-# # Reference:
-# # https://hackernoon.com/deployment-of-full-scale-elk-stack-to-kubernetes-6f38f6c57c55
-# # https://github.com/ITSvitCo/aws-k8s/tree/master/kubernetes-manifests/monitoring
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: logstash
-#   namespace: monitoring
-#   labels:
-#     app: logstash
-# spec:
-#   selector:
-#     matchLabels:
-#       app: logstash
-#   template:
-#     metadata:
-#       labels:
-#         app: logstash
-#     spec:
-#       containers:
-#       - image: docker.elastic.co/logstash/logstash:7.4.1
-#         name: logstash
-#         env:
-#         - name: CMSWEB_CLUSTER
-#           value: {{.Values.db.clusterName}}
-#         - name: CMSWEB_ENV
-#           value: {{.Values.db.env}}
-#         - name: LS_JAVA_OPTS
-#           value: "-Xms4g -Xmx4g"
-#         ports:
-#         - name: logstash
-#           containerPort: 5044
-#           protocol: TCP
-#         volumeMounts:
-#         - name: config
-#           mountPath: /usr/share/logstash/config/logstash.yml
-#           subPath: logstash.yml
-#           readOnly: true
-#         - name: pipeline
-#           mountPath: /usr/share/logstash/pipeline
-#           readOnly: true
-#         args:
-#         - -f
-#         - /usr/share/logstash/pipeline/logstash.conf
-#         resources:
-#           requests:
-#             memory: 4Gi
-#             cpu: "400m"
-#           limits:
-#             memory: 8Gi
-#             cpu: "4000m"
-#       volumes:
-#       - name: pipeline
-#         configMap:
-#           name: logstash
-#           items:
-#           - key: logstash.conf
-#             path: logstash.conf
-#       - name: config
-#         configMap:
-#           name: logstash
-#           items:
-#           - key: logstash.yml
-#             path: logstash.yml
-# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-exporter
+  namespace: monitoring
+  labels:
+    app: mongodb-exporter
+spec:
+  selector:
+    matchLabels:
+      app: mongodb-exporter
+  template:
+    metadata:
+      labels:
+        app: mongodb-exporter
+    spec:
+      containers:
+      - image: percona/mongodb_exporter
+        name: mongodb-exporter
+        args:
+        - -f
+        - mongodb_exporter_linux_amd64/mongodb_exporter --mongodb.uri=mongodb://clusterAdmin:{{.Values.db.auth.password}}@{{.Values.db.nodeHostname}}:32001,{{.Values.db.nodeHostname}}:32002,{{.Values.db.nodeHostname}}:32003/admin?replicaSet={{.Values.db.rsname}}
+
+---
 # apiVersion: v1
 # kind: Service
 # metadata:
