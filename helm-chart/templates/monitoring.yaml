@@ -8,7 +8,7 @@ metadata:
   name: sa-kube-eagle                         
   namespace: monitoring
 ---                     
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:          
   labels:                  
@@ -33,7 +33,7 @@ rules:
       - get               
       - list                                                  
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding          
 metadata:                  
   labels:                            
@@ -380,7 +380,7 @@ spec:
       nodePort: 30000
       name: prom-web
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: prometheus
@@ -401,7 +401,7 @@ rules:
 - nonResourceURLs: ["/metrics"]
   verbs: ["get"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: prometheus
