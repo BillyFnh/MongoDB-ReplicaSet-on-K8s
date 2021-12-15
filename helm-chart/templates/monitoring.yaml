@@ -432,25 +432,29 @@ spec:
         app: mongodb-exporter
     spec:
       containers:
-      - image: percona/mongodb_exporter
+      - image: percona/mongodb_exporter:0.30
         name: mongodb-exporter
         args:
-        - -f
-        - mongodb_exporter_linux_amd64/mongodb_exporter --mongodb.uri=mongodb://clusterAdmin:{{.Values.db.auth.password}}@{{.Values.db.nodeHostname}}:32001,{{.Values.db.nodeHostname}}:32002,{{.Values.db.nodeHostname}}:32003/admin?replicaSet={{.Values.db.rsname}}
-
+        - --mongodb.uri=mongodb://clusterAdmin:{{.Values.db.auth.password | replace "@" "%40"}}@{{.Values.db.nodeHostname}}:32001,{{.Values.db.nodeHostname}}:32002,{{.Values.db.nodeHostname}}:32003/admin?replicaSet={{.Values.db.rsname}}
+        - --mongodb.direct-connect=false
+        ports:
+        - name: http
+          containerPort: 9216
+          protocol: TCP
 ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: logstash
-#   namespace: monitoring
-#   labels:
-#     app: logstash
-# spec:
-#   selector:
-#     app: logstash
-#   ports:
-#   - name: logstash
-#     port: 5044
-#     targetPort: 5044
-#     protocol: TCP
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-exporter
+  name: mongodb-exporter
+  namespace: monitoring
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 9216
+  selector:
+    app: mongodb-exporter
+  type: ClusterIP
