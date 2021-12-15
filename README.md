@@ -23,7 +23,11 @@ If you want to deploy on another cloud provider, or use another StorageClass, yo
 
 ## Launching MongoDB ReplicaSet
 
-Using Helm, you can launch the application with the this command:
+Using Helm, you can launch the application with the the following command, but first you need to create a namespace for the monitoring tools:
+
+```bash
+kubectl create namespace monitoring
+```
 
 ```bash
 helm install mongodb --set db.auth.password='xxx' --set db.auth.keyfile="$(openssl rand -base64 756)" --set db.rsname='rsName' --set db.nodeHostname='something-node-0.cern.ch' . 
@@ -52,6 +56,7 @@ Give this deployment aronud 2-3 minutes to initiate, it will do the following:
 - Start Containers
 - Start `Mongod` and initiate `ReplicaSet`
 - Create `usersAdmin` and `clusterAdmin` users
+- Deploy `prometheus`, `prometheus-adapter`, `kube-eagle` and `mongodb-exporter` tools for monitoring
 
 ****
 
@@ -111,6 +116,12 @@ replicaset.apps/mongodb-1-658f95995d   1         1         1       20s
 replicaset.apps/mongodb-2-6cbb444455   1         1         1       20s
 ```
 
+You can verify the monitoring status with the this command:
+
+```bash
+kubectl get all -n monitoring
+```
+
 You can check the MongoDB ReplicaSet status by via Mongo Shell:
 
 ```bash
@@ -141,4 +152,18 @@ Now that you've started MongoDB, you may connect your clients to it with Mongo C
 The installation is using NodePort services on the ports 32001, 32002 and 32003:
 ```bash
  mongo mongodb://mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32001,mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32002,mongo-cms-fcmki4ox2hnr-node-0.cern.ch:32003/admin?replicaSet=rs0 -u clusterAdmin
+```
+
+
+## Debuging
+
+In case you have created a cluster with monitoring enabled you need to delete some of the default monitoring resources so that helm can install and manage them:
+
+```
+kubectl delete ClusterRole prometheus-adapter-server-resources
+kubectl delete ClusterRole prometheus-adapter-resource-reader
+kubectl delete ClusterRoleBinding prometheus-adapter:system:auth-delegator
+kubectl delete ClusterRoleBinding prometheus-adapter-resource-reader
+kubectl delete ClusterRoleBinding prometheus-adapter-hpa-controlle
+kubectl delete APIService v1beta1.custom.metrics.k8s.io
 ```
